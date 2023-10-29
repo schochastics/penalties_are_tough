@@ -13,40 +13,40 @@ library("gridtext")
 library("stringr")
 library("xtable")
 
-load(file = "data/SaD_D2.1_3.RData") # no tests
-data_final_D2.1 <- data_final
-data_regular_D2.1 <- data_regular
-data_regular_90_D2.1 <- data_regular_D2.1[data_regular_D2.1$TypePhaseName %in% c("Second half", "First half"), ]
-data_regular_120_D2.1 <- data_regular_D2.1[data_regular_D2.1$TypePhaseName %in% c("2nd Extra Time", "1st Extra Time"), ]
-data_shootout_D2.1 <- data_shootout
+load(file = "data/D05.RData") # no tests
+data_final_D05 <- data_final
+data_regular_D05 <- data_regular
+data_regular_90_D05 <- data_regular_D05[data_regular_D05$TypePhaseName %in% c("Second half", "First half"), ]
+data_regular_120_D05 <- data_regular_D05[data_regular_D05$TypePhaseName %in% c("2nd Extra Time", "1st Extra Time"), ]
+data_shootout_D05 <- data_shootout
 rm(data_final, data_regular, data_shootout)
 
-load(file = "data/SaD_D2.2_3.RData") # binom
-data_final_D2.2 <- data_final
-data_regular_D2.2 <- data_regular
-data_regular_90_D2.2 <- data_regular_D2.2[data_regular_D2.2$TypePhaseName %in% c("Second half", "First half"), ]
-data_regular_120_D2.2 <- data_regular_D2.2[data_regular_D2.2$TypePhaseName %in% c("2nd Extra Time", "1st Extra Time"), ]
-data_shootout_D2.2 <- data_shootout
+load(file = "data/D2.RData") # binom
+data_final_D2 <- data_final
+data_regular_D2 <- data_regular
+data_regular_90_D2 <- data_regular_D2[data_regular_D2$TypePhaseName %in% c("Second half", "First half"), ]
+data_regular_120_D2 <- data_regular_D2[data_regular_D2$TypePhaseName %in% c("2nd Extra Time", "1st Extra Time"), ]
+data_shootout_D2 <- data_shootout
 rm(data_final, data_regular, data_shootout)
 
-load(file = "data/SaD_D2.3_3.RData") # multinom
-data_final_D2.3 <- data_final
-data_regular_D2.3 <- data_regular
-data_regular_90_D2.3 <- data_regular_D2.3[data_regular_D2.3$TypePhaseName %in% c("Second half", "First half"), ]
-data_regular_120_D2.3 <- data_regular_D2.3[data_regular_D2.3$TypePhaseName %in% c("2nd Extra Time", "1st Extra Time"), ]
-data_shootout_D2.3 <- data_shootout
+load(file = "data/D3.RData") # multinom
+data_final_D3 <- data_final
+data_regular_D3 <- data_regular
+data_regular_90_D3 <- data_regular_D3[data_regular_D3$TypePhaseName %in% c("Second half", "First half"), ]
+data_regular_120_D3 <- data_regular_D3[data_regular_D3$TypePhaseName %in% c("2nd Extra Time", "1st Extra Time"), ]
+data_shootout_D3 <- data_shootout
 rm(data_final, data_regular, data_shootout)
 
-load(file = "data/SaD_D1.1_D1.2.RData") # only poisson
+load(file = "data/D1.RData") # only poisson
 for (i in seq_along(foldernames_TM)) {
     id_tourn <- startsWith(TM_data_1.2$file, substr(foldernames_TM[i], 58, nchar(foldernames_TM[i])))
     TM_data_1.2[id_tourn, "TournamentName"] <- substr(foldernames_TM[i], 58, nchar(foldernames_TM[i]))
 }
-data_final_D2.4 <- TM_data_1.2
-data_regular_D2.4 <- TM_data_1.2[TM_data_1.2$TypePhaseName != "Penalty Shoot-Out", ]
-data_regular_90_D2.4 <- data_regular_D2.4[data_regular_D2.4$TypePhaseName %in% c("Second half", "First half"), ]
-data_regular_120_D2.4 <- data_regular_D2.4[data_regular_D2.4$TypePhaseName %in% c("2nd Extra Time", "1st Extra Time"), ]
-data_shootout_D2.4 <- TM_data_1.2[TM_data_1.2$TypePhaseName == "Penalty Shoot-Out", ]
+data_final_D1 <- TM_data_1.2
+data_regular_D1 <- TM_data_1.2[TM_data_1.2$TypePhaseName != "Penalty Shoot-Out", ]
+data_regular_90_D1 <- data_regular_D1[data_regular_D1$TypePhaseName %in% c("Second half", "First half"), ]
+data_regular_120_D1 <- data_regular_D1[data_regular_D1$TypePhaseName %in% c("2nd Extra Time", "1st Extra Time"), ]
+data_shootout_D1 <- TM_data_1.2[TM_data_1.2$TypePhaseName == "Penalty Shoot-Out", ]
 rm(TM_data_1.2, id_tourn)
 
 outcome_function <- function(data, digits = 2) {
@@ -60,35 +60,35 @@ outcome_function <- function(data, digits = 2) {
 ##########  Table 1 - Competitions ############
 
 # output table tournaments
-length(unique(data_final_D2.1$TournamentName)) # 115 tournaments
+length(unique(data_final_D05$TournamentName)) # 115 tournaments
 
-data_tournaments <- data.frame(matrix(NA, ncol = 13, nrow = length(unique(data_final_D2.1$TournamentName))))
+data_tournaments <- data.frame(matrix(NA, ncol = 13, nrow = length(unique(data_final_D05$TournamentName))))
 colnames(data_tournaments) <- c(
     "country",
     "penalties_D1", "regulation_D1", "extra_time_D1", "shootout_D1",
     "penalties_D2", "regulation_D2", "extra_time_D2", "shootout_D2",
     "penalties_D3", "regulation_D3", "extra_time_D3", "shootout_D3"
 )
-rownames(data_tournaments) <- unique(data_final_D2.1$TournamentName)
+rownames(data_tournaments) <- unique(data_final_D05$TournamentName)
 
-for (i in seq_along(unique(data_final_D2.1$TournamentName))) {
+for (i in seq_along(unique(data_final_D05$TournamentName))) {
     tournament <- rownames(data_tournaments)[i]
 
-    data_tournaments[i, "country"] <- unique(data_final_D2.1[data_final_D2.1$TournamentName == tournament, "country"])
-    data_tournaments[i, "penalties_D1"] <- nrow(data_final_D2.4[data_final_D2.4$TournamentName == tournament, ])
-    data_tournaments[i, "regulation_D1"] <- nrow(data_regular_90_D2.4[data_regular_90_D2.4$TournamentName == tournament, ])
-    data_tournaments[i, "extra_time_D1"] <- nrow(data_regular_120_D2.4[data_regular_120_D2.4$TournamentName == tournament, ])
-    data_tournaments[i, "shootout_D1"] <- nrow(data_shootout_D2.4[data_shootout_D2.4$TournamentName == tournament, ])
+    data_tournaments[i, "country"] <- unique(data_final_D05[data_final_D05$TournamentName == tournament, "country"])
+    data_tournaments[i, "penalties_D1"] <- nrow(data_final_D1[data_final_D1$TournamentName == tournament, ])
+    data_tournaments[i, "regulation_D1"] <- nrow(data_regular_90_D1[data_regular_90_D1$TournamentName == tournament, ])
+    data_tournaments[i, "extra_time_D1"] <- nrow(data_regular_120_D1[data_regular_120_D1$TournamentName == tournament, ])
+    data_tournaments[i, "shootout_D1"] <- nrow(data_shootout_D1[data_shootout_D1$TournamentName == tournament, ])
 
-    data_tournaments[i, "penalties_D2"] <- nrow(data_final_D2.2[data_final_D2.2$TournamentName == tournament, ])
-    data_tournaments[i, "regulation_D2"] <- nrow(data_regular_90_D2.2[data_regular_90_D2.2$TournamentName == tournament, ])
-    data_tournaments[i, "extra_time_D2"] <- nrow(data_regular_120_D2.2[data_regular_120_D2.2$TournamentName == tournament, ])
-    data_tournaments[i, "shootout_D2"] <- nrow(data_shootout_D2.2[data_shootout_D2.2$TournamentName == tournament, ])
+    data_tournaments[i, "penalties_D2"] <- nrow(data_final_D2[data_final_D2$TournamentName == tournament, ])
+    data_tournaments[i, "regulation_D2"] <- nrow(data_regular_90_D2[data_regular_90_D2$TournamentName == tournament, ])
+    data_tournaments[i, "extra_time_D2"] <- nrow(data_regular_120_D2[data_regular_120_D2$TournamentName == tournament, ])
+    data_tournaments[i, "shootout_D2"] <- nrow(data_shootout_D2[data_shootout_D2$TournamentName == tournament, ])
 
-    data_tournaments[i, "penalties_D3"] <- nrow(data_final_D2.3[data_final_D2.3$TournamentName == tournament, ])
-    data_tournaments[i, "regulation_D3"] <- nrow(data_regular_90_D2.3[data_regular_90_D2.3$TournamentName == tournament, ])
-    data_tournaments[i, "extra_time_D3"] <- nrow(data_regular_120_D2.3[data_regular_120_D2.3$TournamentName == tournament, ])
-    data_tournaments[i, "shootout_D3"] <- nrow(data_shootout_D2.3[data_shootout_D2.3$TournamentName == tournament, ])
+    data_tournaments[i, "penalties_D3"] <- nrow(data_final_D3[data_final_D3$TournamentName == tournament, ])
+    data_tournaments[i, "regulation_D3"] <- nrow(data_regular_90_D3[data_regular_90_D3$TournamentName == tournament, ])
+    data_tournaments[i, "extra_time_D3"] <- nrow(data_regular_120_D3[data_regular_120_D3$TournamentName == tournament, ])
+    data_tournaments[i, "shootout_D3"] <- nrow(data_shootout_D3[data_shootout_D3$TournamentName == tournament, ])
 }
 
 order_tournaments <- order(data_tournaments$penalties_D1, decreasing = TRUE)
@@ -140,13 +140,13 @@ write.csv(data_tournaments, "processed_data/tab.9-11.csv")
 
 #### players #####
 
-length(unique(data_final_D2.2$player_name))
-length(unique(data_final_D2.2$goalie_name))
-sum(data_final_D2.2$goalie_name == "dummy_goalie")
+length(unique(data_final_D2$player_name))
+length(unique(data_final_D2$goalie_name))
+sum(data_final_D2$goalie_name == "dummy_goalie")
 
-length(unique(data_final_D2.3$player_name))
-length(unique(data_final_D2.3$goalie_name))
-sum(data_final_D2.3$goalie_name == "dummy_goalie")
+length(unique(data_final_D3$player_name))
+length(unique(data_final_D3$goalie_name))
+sum(data_final_D3$goalie_name == "dummy_goalie")
 
 ##########  Figure 1  ############
 
@@ -159,18 +159,18 @@ colnames(fig_1) <- c(
 )
 rownames(fig_1) <- "rate"
 
-fig_1[1, "goal_D2_regulation"] <- outcome_function(data_regular_90_D2.2)
-fig_1[1, "goal_D2_extra"] <- outcome_function(data_regular_120_D2.2)
-fig_1[1, "goal_D2_shootout"] <- outcome_function(data_shootout_D2.2)
-fig_1[1, "goal_D3_regulation"] <- outcome_function(data_regular_90_D2.3)["Goal"]
-fig_1[1, "goal_D3_extra"] <- outcome_function(data_regular_120_D2.3)["Goal"]
-fig_1[1, "goal_D3_shootout"] <- outcome_function(data_shootout_D2.3)["Goal"]
-fig_1[1, "save_D3_regulation"] <- outcome_function(data_regular_90_D2.3)["Save"]
-fig_1[1, "save_D3_extra"] <- outcome_function(data_regular_120_D2.3)["Save"]
-fig_1[1, "save_D3_shootout"] <- outcome_function(data_shootout_D2.3)["Save"]
-fig_1[1, "miss_D3_regulation"] <- outcome_function(data_regular_90_D2.3)["Missed"]
-fig_1[1, "miss_D3_extra"] <- outcome_function(data_regular_120_D2.3)["Missed"]
-fig_1[1, "miss_D3_shootout"] <- outcome_function(data_shootout_D2.3)["Missed"]
+fig_1[1, "goal_D2_regulation"] <- outcome_function(data_regular_90_D2)
+fig_1[1, "goal_D2_extra"] <- outcome_function(data_regular_120_D2)
+fig_1[1, "goal_D2_shootout"] <- outcome_function(data_shootout_D2)
+fig_1[1, "goal_D3_regulation"] <- outcome_function(data_regular_90_D3)["Goal"]
+fig_1[1, "goal_D3_extra"] <- outcome_function(data_regular_120_D3)["Goal"]
+fig_1[1, "goal_D3_shootout"] <- outcome_function(data_shootout_D3)["Goal"]
+fig_1[1, "save_D3_regulation"] <- outcome_function(data_regular_90_D3)["Save"]
+fig_1[1, "save_D3_extra"] <- outcome_function(data_regular_120_D3)["Save"]
+fig_1[1, "save_D3_shootout"] <- outcome_function(data_shootout_D3)["Save"]
+fig_1[1, "miss_D3_regulation"] <- outcome_function(data_regular_90_D3)["Missed"]
+fig_1[1, "miss_D3_extra"] <- outcome_function(data_regular_120_D3)["Missed"]
+fig_1[1, "miss_D3_shootout"] <- outcome_function(data_shootout_D3)["Missed"]
 
 write.csv(fig_1, "processed_data/fig.1.csv")
 
@@ -182,38 +182,38 @@ write.csv(fig_1, "processed_data/fig.1.csv")
 #### leagues ####
 top_leagues <- c("leagues/es1-laliga", "leagues/fr1-ligue-1", "leagues/gb1-premier-league", "leagues/l1-bundesliga", "leagues/it1-serie-a")
 
-data_leagues_reg_D2.3 <- data_regular_90_D2.3[data_regular_90_D2.3$CompetitionShortName == "leag", ]
+data_leagues_reg_D3 <- data_regular_90_D3[data_regular_90_D3$CompetitionShortName == "leag", ]
 
-data_leagues_reg_top5_D2.3 <- data_leagues_reg_D2.3[data_leagues_reg_D2.3$TournamentName %in% top_leagues, ]
-data_leagues_reg_other_D2.3 <- data_leagues_reg_D2.3[!data_leagues_reg_D2.3$TournamentName %in% top_leagues, ]
+data_leagues_reg_top5_D3 <- data_leagues_reg_D3[data_leagues_reg_D3$TournamentName %in% top_leagues, ]
+data_leagues_reg_other_D3 <- data_leagues_reg_D3[!data_leagues_reg_D3$TournamentName %in% top_leagues, ]
 
-data_leagues_reg_D2.2 <- data_regular_90_D2.2[data_regular_90_D2.2$CompetitionShortName == "leag", ]
+data_leagues_reg_D2 <- data_regular_90_D2[data_regular_90_D2$CompetitionShortName == "leag", ]
 
-data_leagues_reg_top5_D2.2 <- data_leagues_reg_D2.2[data_leagues_reg_D2.2$TournamentName %in% top_leagues, ]
-data_leagues_reg_other_D2.2 <- data_leagues_reg_D2.2[!data_leagues_reg_D2.2$TournamentName %in% top_leagues, ]
+data_leagues_reg_top5_D2 <- data_leagues_reg_D2[data_leagues_reg_D2$TournamentName %in% top_leagues, ]
+data_leagues_reg_other_D2 <- data_leagues_reg_D2[!data_leagues_reg_D2$TournamentName %in% top_leagues, ]
 
 conv_mat_leagues <- matrix(c(
-    length(unique(data_leagues_reg_D2.3$TournamentName)), length(unique(data_leagues_reg_top5_D2.3$TournamentName)), length(unique(data_leagues_reg_other_D2.3$TournamentName)),
-    nrow(data_leagues_reg_D2.3), nrow(data_leagues_reg_top5_D2.3), nrow(data_leagues_reg_other_D2.3),
-    length(unique(data_leagues_reg_D2.2$TournamentName)), length(unique(data_leagues_reg_top5_D2.2$TournamentName)), length(unique(data_leagues_reg_other_D2.2$TournamentName)),
-    nrow(data_leagues_reg_D2.2), nrow(data_leagues_reg_top5_D2.2), nrow(data_leagues_reg_other_D2.2)
+    length(unique(data_leagues_reg_D3$TournamentName)), length(unique(data_leagues_reg_top5_D3$TournamentName)), length(unique(data_leagues_reg_other_D3$TournamentName)),
+    nrow(data_leagues_reg_D3), nrow(data_leagues_reg_top5_D3), nrow(data_leagues_reg_other_D3),
+    length(unique(data_leagues_reg_D2$TournamentName)), length(unique(data_leagues_reg_top5_D2$TournamentName)), length(unique(data_leagues_reg_other_D2$TournamentName)),
+    nrow(data_leagues_reg_D2), nrow(data_leagues_reg_top5_D2), nrow(data_leagues_reg_other_D2)
 ), byrow = F, nrow = 3)
-colnames(conv_mat_leagues) <- c("#_D2.3", "n_D2.3", "#_D2.2", "n_D2.2")
+colnames(conv_mat_leagues) <- c("#_D3", "n_D3", "#_D2", "n_D2")
 rownames(conv_mat_leagues) <- c("national leagues", "top five leagues", "other leagues")
 
 tab2 <- cbind(
     conv_mat_leagues,
-    c(outcome_function(data_leagues_reg_D2.2), outcome_function(data_leagues_reg_top5_D2.2), outcome_function(data_leagues_reg_other_D2.2)),
-    matrix(c(outcome_function(data_leagues_reg_D2.3), outcome_function(data_leagues_reg_top5_D2.3), outcome_function(data_leagues_reg_other_D2.3)), nrow = 3, byrow = T)
+    c(outcome_function(data_leagues_reg_D2), outcome_function(data_leagues_reg_top5_D2), outcome_function(data_leagues_reg_other_D2)),
+    matrix(c(outcome_function(data_leagues_reg_D3), outcome_function(data_leagues_reg_top5_D3), outcome_function(data_leagues_reg_other_D3)), nrow = 3, byrow = T)
 )
 colnames(tab2) <- c(
-    "#_D2.3", "n_D2.3", "#_D2.2", "n_D2.2",
+    "#_D3", "n_D3", "#_D2", "n_D2",
     "goal_D2", "goal_D3", "miss_D3", "save_D3"
 )
 
 tab2 <- tab2[c("top five leagues", "other leagues", "national leagues"), c(
-    "#_D2.2", "n_D2.2", "goal_D2",
-    "#_D2.3", "n_D2.3", "goal_D3", "save_D3", "miss_D3"
+    "#_D2", "n_D2", "goal_D2",
+    "#_D3", "n_D3", "goal_D3", "save_D3", "miss_D3"
 )]
 
 colnames(tab2) <- c(
@@ -229,61 +229,61 @@ write.csv(tab2, "processed_data/tab.2.csv")
 top_cups <- c("cups/cdr-copa-del-rey", "cups/frc-coupe-de-france", "cups/fac-fa-cup", "cups/cgb-efl-cup", "cups/dfb-dfb-pokal", "cups/cit-coppa-italia")
 
 # D2.3
-data_cups_reg_D2.3 <- data_regular_90_D2.3[data_regular_90_D2.3$CompetitionShortName == "cups", ]
-data_cups_extra_D2.3 <- data_regular_120_D2.3[data_regular_120_D2.3$CompetitionShortName == "cups", ]
-data_cups_shootout_D2.3 <- data_shootout_D2.3[data_shootout_D2.3$CompetitionShortName == "cups", ]
+data_cups_reg_D3 <- data_regular_90_D3[data_regular_90_D3$CompetitionShortName == "cups", ]
+data_cups_extra_D3 <- data_regular_120_D3[data_regular_120_D3$CompetitionShortName == "cups", ]
+data_cups_shootout_D3 <- data_shootout_D3[data_shootout_D3$CompetitionShortName == "cups", ]
 
-data_cups_reg_top5_D2.3 <- data_cups_reg_D2.3[data_cups_reg_D2.3$TournamentName %in% top_cups, ]
-data_cups_extra_top5_D2.3 <- data_cups_extra_D2.3[data_cups_extra_D2.3$TournamentName %in% top_cups, ]
-data_cups_shootout_top5_D2.3 <- data_cups_shootout_D2.3[data_cups_shootout_D2.3$TournamentName %in% top_cups, ]
+data_cups_reg_top5_D3 <- data_cups_reg_D3[data_cups_reg_D3$TournamentName %in% top_cups, ]
+data_cups_extra_top5_D3 <- data_cups_extra_D3[data_cups_extra_D3$TournamentName %in% top_cups, ]
+data_cups_shootout_top5_D3 <- data_cups_shootout_D3[data_cups_shootout_D3$TournamentName %in% top_cups, ]
 
-data_cups_reg_other_D2.3 <- data_cups_reg_D2.3[!data_cups_reg_D2.3$TournamentName %in% top_cups, ]
-data_cups_extra_other_D2.3 <- data_cups_extra_D2.3[!data_cups_extra_D2.3$TournamentName %in% top_cups, ]
-data_cups_shootout_other_D2.3 <- data_cups_shootout_D2.3[!data_cups_shootout_D2.3$TournamentName %in% top_cups, ]
+data_cups_reg_other_D3 <- data_cups_reg_D3[!data_cups_reg_D3$TournamentName %in% top_cups, ]
+data_cups_extra_other_D3 <- data_cups_extra_D3[!data_cups_extra_D3$TournamentName %in% top_cups, ]
+data_cups_shootout_other_D3 <- data_cups_shootout_D3[!data_cups_shootout_D3$TournamentName %in% top_cups, ]
 
-data_int_cups_reg_D2.3 <- data_regular_90_D2.3[data_regular_90_D2.3$CompetitionShortName == "int_cups", ]
-data_int_cups_extra_D2.3 <- data_regular_120_D2.3[data_regular_120_D2.3$CompetitionShortName == "int_cups", ]
-data_int_cups_shootout_D2.3 <- data_shootout_D2.3[data_shootout_D2.3$CompetitionShortName == "int_cups", ]
+data_int_cups_reg_D3 <- data_regular_90_D3[data_regular_90_D3$CompetitionShortName == "int_cups", ]
+data_int_cups_extra_D3 <- data_regular_120_D3[data_regular_120_D3$CompetitionShortName == "int_cups", ]
+data_int_cups_shootout_D3 <- data_shootout_D3[data_shootout_D3$CompetitionShortName == "int_cups", ]
 
-data_int_sides_reg_D2.3 <- data_regular_90_D2.3[data_regular_90_D2.3$CompetitionShortName == "nat_teams", ]
-data_int_sides_extra_D2.3 <- data_regular_120_D2.3[data_regular_120_D2.3$CompetitionShortName == "nat_teams", ]
-data_int_sides_shootout_D2.3 <- data_shootout_D2.3[data_shootout_D2.3$CompetitionShortName == "nat_teams", ]
+data_int_sides_reg_D3 <- data_regular_90_D3[data_regular_90_D3$CompetitionShortName == "nat_teams", ]
+data_int_sides_extra_D3 <- data_regular_120_D3[data_regular_120_D3$CompetitionShortName == "nat_teams", ]
+data_int_sides_shootout_D3 <- data_shootout_D3[data_shootout_D3$CompetitionShortName == "nat_teams", ]
 
 # D2.2
-data_cups_reg_D2.2 <- data_regular_90_D2.2[data_regular_90_D2.2$CompetitionShortName == "cups", ]
-data_cups_extra_D2.2 <- data_regular_120_D2.2[data_regular_120_D2.2$CompetitionShortName == "cups", ]
-data_cups_shootout_D2.2 <- data_shootout_D2.2[data_shootout_D2.2$CompetitionShortName == "cups", ]
+data_cups_reg_D2 <- data_regular_90_D2[data_regular_90_D2$CompetitionShortName == "cups", ]
+data_cups_extra_D2 <- data_regular_120_D2[data_regular_120_D2$CompetitionShortName == "cups", ]
+data_cups_shootout_D2 <- data_shootout_D2[data_shootout_D2$CompetitionShortName == "cups", ]
 
-data_cups_reg_top5_D2.2 <- data_cups_reg_D2.2[data_cups_reg_D2.2$TournamentName %in% top_cups, ]
-data_cups_extra_top5_D2.2 <- data_cups_extra_D2.2[data_cups_extra_D2.2$TournamentName %in% top_cups, ]
-data_cups_shootout_top5_D2.2 <- data_cups_shootout_D2.2[data_cups_shootout_D2.2$TournamentName %in% top_cups, ]
+data_cups_reg_top5_D2 <- data_cups_reg_D2[data_cups_reg_D2$TournamentName %in% top_cups, ]
+data_cups_extra_top5_D2 <- data_cups_extra_D2[data_cups_extra_D2$TournamentName %in% top_cups, ]
+data_cups_shootout_top5_D2 <- data_cups_shootout_D2[data_cups_shootout_D2$TournamentName %in% top_cups, ]
 
-data_cups_reg_other_D2.2 <- data_cups_reg_D2.2[!data_cups_reg_D2.2$TournamentName %in% top_cups, ]
-data_cups_extra_other_D2.2 <- data_cups_extra_D2.2[!data_cups_extra_D2.2$TournamentName %in% top_cups, ]
-data_cups_shootout_other_D2.2 <- data_cups_shootout_D2.2[!data_cups_shootout_D2.2$TournamentName %in% top_cups, ]
+data_cups_reg_other_D2 <- data_cups_reg_D2[!data_cups_reg_D2$TournamentName %in% top_cups, ]
+data_cups_extra_other_D2 <- data_cups_extra_D2[!data_cups_extra_D2$TournamentName %in% top_cups, ]
+data_cups_shootout_other_D2 <- data_cups_shootout_D2[!data_cups_shootout_D2$TournamentName %in% top_cups, ]
 
-data_int_cups_reg_D2.2 <- data_regular_90_D2.2[data_regular_90_D2.2$CompetitionShortName == "int_cups", ]
-data_int_cups_extra_D2.2 <- data_regular_120_D2.2[data_regular_120_D2.2$CompetitionShortName == "int_cups", ]
-data_int_cups_shootout_D2.2 <- data_shootout_D2.2[data_shootout_D2.2$CompetitionShortName == "int_cups", ]
+data_int_cups_reg_D2 <- data_regular_90_D2[data_regular_90_D2$CompetitionShortName == "int_cups", ]
+data_int_cups_extra_D2 <- data_regular_120_D2[data_regular_120_D2$CompetitionShortName == "int_cups", ]
+data_int_cups_shootout_D2 <- data_shootout_D2[data_shootout_D2$CompetitionShortName == "int_cups", ]
 
-data_int_sides_reg_D2.2 <- data_regular_90_D2.2[data_regular_90_D2.2$CompetitionShortName == "nat_teams", ]
-data_int_sides_extra_D2.2 <- data_regular_120_D2.2[data_regular_120_D2.2$CompetitionShortName == "nat_teams", ]
-data_int_sides_shootout_D2.2 <- data_shootout_D2.2[data_shootout_D2.2$CompetitionShortName == "nat_teams", ]
+data_int_sides_reg_D2 <- data_regular_90_D2[data_regular_90_D2$CompetitionShortName == "nat_teams", ]
+data_int_sides_extra_D2 <- data_regular_120_D2[data_regular_120_D2$CompetitionShortName == "nat_teams", ]
+data_int_sides_shootout_D2 <- data_shootout_D2[data_shootout_D2$CompetitionShortName == "nat_teams", ]
 
 # table
 conv_mat_cups <- matrix(c(
-    length(unique(data_cups_reg_D2.3$TournamentName)), length(unique(data_cups_reg_top5_D2.3$TournamentName)), length(unique(data_cups_reg_other_D2.3$TournamentName)), length(unique(data_int_cups_reg_D2.3$TournamentName)), length(unique(data_int_sides_reg_D2.3$TournamentName)),
-    nrow(data_cups_reg_D2.3), nrow(data_cups_reg_top5_D2.3), nrow(data_cups_reg_other_D2.3), nrow(data_int_cups_reg_D2.3), nrow(data_int_sides_reg_D2.3),
-    length(unique(data_cups_extra_D2.3$TournamentName)), length(unique(data_cups_extra_top5_D2.3$TournamentName)), length(unique(data_cups_extra_other_D2.3$TournamentName)), length(unique(data_int_cups_extra_D2.3$TournamentName)), length(unique(data_int_sides_extra_D2.3$TournamentName)),
-    nrow(data_cups_extra_D2.3), nrow(data_cups_extra_top5_D2.3), nrow(data_cups_extra_other_D2.3), nrow(data_int_cups_extra_D2.3), nrow(data_int_sides_extra_D2.3),
-    length(unique(data_cups_shootout_D2.3$TournamentName)), length(unique(data_cups_shootout_top5_D2.3$TournamentName)), length(unique(data_cups_shootout_other_D2.3$TournamentName)), length(unique(data_int_cups_shootout_D2.3$TournamentName)), length(unique(data_int_sides_shootout_D2.3$TournamentName)),
-    nrow(data_cups_shootout_D2.3), nrow(data_cups_shootout_top5_D2.3), nrow(data_cups_shootout_other_D2.3), nrow(data_int_cups_shootout_D2.3), nrow(data_int_sides_shootout_D2.3),
-    length(unique(data_cups_reg_D2.2$TournamentName)), length(unique(data_cups_reg_top5_D2.2$TournamentName)), length(unique(data_cups_reg_other_D2.2$TournamentName)), length(unique(data_int_cups_reg_D2.2$TournamentName)), length(unique(data_int_sides_reg_D2.2$TournamentName)),
-    nrow(data_cups_reg_D2.2), nrow(data_cups_reg_top5_D2.2), nrow(data_cups_reg_other_D2.2), nrow(data_int_cups_reg_D2.2), nrow(data_int_sides_reg_D2.2),
-    length(unique(data_cups_extra_D2.2$TournamentName)), length(unique(data_cups_extra_top5_D2.2$TournamentName)), length(unique(data_cups_extra_other_D2.2$TournamentName)), length(unique(data_int_cups_extra_D2.2$TournamentName)), length(unique(data_int_sides_extra_D2.2$TournamentName)),
-    nrow(data_cups_extra_D2.2), nrow(data_cups_extra_top5_D2.2), nrow(data_cups_extra_other_D2.2), nrow(data_int_cups_extra_D2.2), nrow(data_int_sides_extra_D2.2),
-    length(unique(data_cups_shootout_D2.2$TournamentName)), length(unique(data_cups_shootout_top5_D2.2$TournamentName)), length(unique(data_cups_shootout_other_D2.2$TournamentName)), length(unique(data_int_cups_shootout_D2.2$TournamentName)), length(unique(data_int_sides_shootout_D2.2$TournamentName)),
-    nrow(data_cups_shootout_D2.2), nrow(data_cups_shootout_top5_D2.2), nrow(data_cups_shootout_other_D2.2), nrow(data_int_cups_shootout_D2.2), nrow(data_int_sides_shootout_D2.2)
+    length(unique(data_cups_reg_D3$TournamentName)), length(unique(data_cups_reg_top5_D3$TournamentName)), length(unique(data_cups_reg_other_D3$TournamentName)), length(unique(data_int_cups_reg_D3$TournamentName)), length(unique(data_int_sides_reg_D3$TournamentName)),
+    nrow(data_cups_reg_D3), nrow(data_cups_reg_top5_D3), nrow(data_cups_reg_other_D3), nrow(data_int_cups_reg_D3), nrow(data_int_sides_reg_D3),
+    length(unique(data_cups_extra_D3$TournamentName)), length(unique(data_cups_extra_top5_D3$TournamentName)), length(unique(data_cups_extra_other_D3$TournamentName)), length(unique(data_int_cups_extra_D3$TournamentName)), length(unique(data_int_sides_extra_D3$TournamentName)),
+    nrow(data_cups_extra_D3), nrow(data_cups_extra_top5_D3), nrow(data_cups_extra_other_D3), nrow(data_int_cups_extra_D3), nrow(data_int_sides_extra_D3),
+    length(unique(data_cups_shootout_D3$TournamentName)), length(unique(data_cups_shootout_top5_D3$TournamentName)), length(unique(data_cups_shootout_other_D3$TournamentName)), length(unique(data_int_cups_shootout_D3$TournamentName)), length(unique(data_int_sides_shootout_D3$TournamentName)),
+    nrow(data_cups_shootout_D3), nrow(data_cups_shootout_top5_D3), nrow(data_cups_shootout_other_D3), nrow(data_int_cups_shootout_D3), nrow(data_int_sides_shootout_D3),
+    length(unique(data_cups_reg_D2$TournamentName)), length(unique(data_cups_reg_top5_D2$TournamentName)), length(unique(data_cups_reg_other_D2$TournamentName)), length(unique(data_int_cups_reg_D2$TournamentName)), length(unique(data_int_sides_reg_D2$TournamentName)),
+    nrow(data_cups_reg_D2), nrow(data_cups_reg_top5_D2), nrow(data_cups_reg_other_D2), nrow(data_int_cups_reg_D2), nrow(data_int_sides_reg_D2),
+    length(unique(data_cups_extra_D2$TournamentName)), length(unique(data_cups_extra_top5_D2$TournamentName)), length(unique(data_cups_extra_other_D2$TournamentName)), length(unique(data_int_cups_extra_D2$TournamentName)), length(unique(data_int_sides_extra_D2$TournamentName)),
+    nrow(data_cups_extra_D2), nrow(data_cups_extra_top5_D2), nrow(data_cups_extra_other_D2), nrow(data_int_cups_extra_D2), nrow(data_int_sides_extra_D2),
+    length(unique(data_cups_shootout_D2$TournamentName)), length(unique(data_cups_shootout_top5_D2$TournamentName)), length(unique(data_cups_shootout_other_D2$TournamentName)), length(unique(data_int_cups_shootout_D2$TournamentName)), length(unique(data_int_sides_shootout_D2$TournamentName)),
+    nrow(data_cups_shootout_D2), nrow(data_cups_shootout_top5_D2), nrow(data_cups_shootout_other_D2), nrow(data_int_cups_shootout_D2), nrow(data_int_sides_shootout_D2)
 ), byrow = F, nrow = 5)
 rownames(conv_mat_cups) <- c("national cups", "top five cups", "other cups", "international cups", "international sides")
 colnames(conv_mat_cups) <- c(
@@ -294,16 +294,16 @@ colnames(conv_mat_cups) <- c(
 write.csv(conv_mat_cups, "processed_data/tab.12-13.csv")
 
 fig10 <- matrix(c(
-    outcome_function(data_cups_reg_D2.3),
-    outcome_function(data_cups_reg_top5_D2.3),
-    outcome_function(data_cups_reg_other_D2.3),
-    outcome_function(data_int_cups_reg_D2.3),
-    outcome_function(data_int_sides_reg_D2.3),
-    outcome_function(data_cups_reg_D2.2),
-    outcome_function(data_cups_reg_top5_D2.2),
-    outcome_function(data_cups_reg_other_D2.2),
-    outcome_function(data_int_cups_reg_D2.2),
-    outcome_function(data_int_sides_reg_D2.2)
+    outcome_function(data_cups_reg_D3),
+    outcome_function(data_cups_reg_top5_D3),
+    outcome_function(data_cups_reg_other_D3),
+    outcome_function(data_int_cups_reg_D3),
+    outcome_function(data_int_sides_reg_D3),
+    outcome_function(data_cups_reg_D2),
+    outcome_function(data_cups_reg_top5_D2),
+    outcome_function(data_cups_reg_other_D2),
+    outcome_function(data_int_cups_reg_D2),
+    outcome_function(data_int_sides_reg_D2)
 ), nrow = 1)
 
 colnames(fig10) <- c(
@@ -325,16 +325,16 @@ rownames(fig10) <- "rate"
 write.csv(fig10, "processed_data/fig.10.csv")
 
 fig11 <- matrix(c(
-    outcome_function(data_cups_extra_D2.3),
-    outcome_function(data_cups_extra_top5_D2.3),
-    outcome_function(data_cups_extra_other_D2.3),
-    outcome_function(data_int_cups_extra_D2.3),
-    outcome_function(data_int_sides_extra_D2.3),
-    outcome_function(data_cups_extra_D2.2),
-    outcome_function(data_cups_extra_top5_D2.2),
-    outcome_function(data_cups_extra_other_D2.2),
-    outcome_function(data_int_cups_extra_D2.2),
-    outcome_function(data_int_sides_extra_D2.2)
+    outcome_function(data_cups_extra_D3),
+    outcome_function(data_cups_extra_top5_D3),
+    outcome_function(data_cups_extra_other_D3),
+    outcome_function(data_int_cups_extra_D3),
+    outcome_function(data_int_sides_extra_D3),
+    outcome_function(data_cups_extra_D2),
+    outcome_function(data_cups_extra_top5_D2),
+    outcome_function(data_cups_extra_other_D2),
+    outcome_function(data_int_cups_extra_D2),
+    outcome_function(data_int_sides_extra_D2)
 ), nrow = 1)
 
 colnames(fig11) <- c(
@@ -356,16 +356,16 @@ rownames(fig11) <- "rate"
 write.csv(fig11, "processed_data/fig.11.csv")
 
 fig12 <- matrix(c(
-    outcome_function(data_cups_shootout_D2.3),
-    outcome_function(data_cups_shootout_top5_D2.3),
-    outcome_function(data_cups_shootout_other_D2.3),
-    outcome_function(data_int_cups_shootout_D2.3),
-    outcome_function(data_int_sides_shootout_D2.3),
-    outcome_function(data_cups_shootout_D2.2),
-    outcome_function(data_cups_shootout_top5_D2.2),
-    outcome_function(data_cups_shootout_other_D2.2),
-    outcome_function(data_int_cups_shootout_D2.2),
-    outcome_function(data_int_sides_shootout_D2.2)
+    outcome_function(data_cups_shootout_D3),
+    outcome_function(data_cups_shootout_top5_D3),
+    outcome_function(data_cups_shootout_other_D3),
+    outcome_function(data_int_cups_shootout_D3),
+    outcome_function(data_int_sides_shootout_D3),
+    outcome_function(data_cups_shootout_D2),
+    outcome_function(data_cups_shootout_top5_D2),
+    outcome_function(data_cups_shootout_other_D2),
+    outcome_function(data_int_cups_shootout_D2),
+    outcome_function(data_int_sides_shootout_D2)
 ), nrow = 1)
 
 colnames(fig12) <- c(
@@ -390,15 +390,15 @@ write.csv(fig12, "processed_data/fig.12.csv")
 ##########  tab 3  ############
 
 
-data_cups_regular_D3 <- data_regular_D2.3[data_regular_D2.3$CompetitionShortName == "cups", ]
-data_int_cups_regular_D3 <- data_regular_D2.3[data_regular_D2.3$CompetitionShortName == "int_cups", ]
-data_int_sides_regular_D3 <- data_regular_D2.3[data_regular_D2.3$CompetitionShortName == "nat_teams", ]
-data_not_leagues_regular_D3 <- data_regular_D2.3[data_regular_D2.3$CompetitionShortName != "leag", ]
+data_cups_regular_D3 <- data_regular_D3[data_regular_D3$CompetitionShortName == "cups", ]
+data_int_cups_regular_D3 <- data_regular_D3[data_regular_D3$CompetitionShortName == "int_cups", ]
+data_int_sides_regular_D3 <- data_regular_D3[data_regular_D3$CompetitionShortName == "nat_teams", ]
+data_not_leagues_regular_D3 <- data_regular_D3[data_regular_D3$CompetitionShortName != "leag", ]
 
-data_cups_shootout_D3 <- data_shootout_D2.3[data_shootout_D2.3$CompetitionShortName == "cups", ]
-data_int_cups_shootout_D3 <- data_shootout_D2.3[data_shootout_D2.3$CompetitionShortName == "int_cups", ]
-data_int_sides_shootout_D3 <- data_shootout_D2.3[data_shootout_D2.3$CompetitionShortName == "nat_teams", ]
-data_not_leagues_shootout_D3 <- data_shootout_D2.3[data_shootout_D2.3$CompetitionShortName != "leag", ]
+data_cups_shootout_D3 <- data_shootout_D3[data_shootout_D3$CompetitionShortName == "cups", ]
+data_int_cups_shootout_D3 <- data_shootout_D3[data_shootout_D3$CompetitionShortName == "int_cups", ]
+data_int_sides_shootout_D3 <- data_shootout_D3[data_shootout_D3$CompetitionShortName == "nat_teams", ]
+data_not_leagues_shootout_D3 <- data_shootout_D3[data_shootout_D3$CompetitionShortName != "leag", ]
 
 tab3 <- matrix(cbind(
     c(
@@ -444,18 +444,18 @@ write.csv(tab3, "processed_data/tab.3.csv")
 
 # conversion per player
 g <- 1
-while (sum(table(data_final_D2.2$player_name) >= g) >= 50) {
+while (sum(table(data_final_D2$player_name) >= g) >= 50) {
     g <- g + 1
 }
 n_player <- g - 1
 
-players_50 <- names(table(data_final_D2.2$player_name)[table(data_final_D2.2$player_name) >= n_player])
+players_50 <- names(table(data_final_D2$player_name)[table(data_final_D2$player_name) >= n_player])
 players_50_stats <- matrix(NA, ncol = 4, nrow = length(players_50))
 colnames(players_50_stats) <- c("penalties", "goal", "miss", "save")
 rownames(players_50_stats) <- str_to_title(players_50)
 
 for (i in seq_along(players_50)) {
-    data_players_50 <- data_final_D2.2[data_final_D2.2$player_name %in% players_50[i], ]
+    data_players_50 <- data_final_D2[data_final_D2$player_name %in% players_50[i], ]
 
     players_50_stats[i, c("goal", "miss", "save")] <- table(data_players_50$EventTypeName) / sum(table(data_players_50$EventTypeName)) * 100
     players_50_stats[i, "penalties"] <- sum(table(data_players_50$EventTypeName))
@@ -467,35 +467,35 @@ players_50_stats <- players_50_stats[, c("penalty taker", "penalties", "goal", "
 nrow(players_50_stats)
 
 # player_care <- players_50[players_50 %in% players_careful]
-# vec_duplicates <- data_regular_D2.2[,c("OfficialMatchName","FinalResult","player_name","PenaltyTakerTeamName","EventTypeName","goalie_name","GoalkeeperTeam", "PenaltyMinute","PenaltySecond","ScoreAfter")]
-# data_regular_D2.2[ duplicated(vec_duplicates) | duplicated(vec_duplicates, fromLast=T),]
+# vec_duplicates <- data_regular_D2[,c("OfficialMatchName","FinalResult","player_name","PenaltyTakerTeamName","EventTypeName","goalie_name","GoalkeeperTeam", "PenaltyMinute","PenaltySecond","ScoreAfter")]
+# data_regular_D2[ duplicated(vec_duplicates) | duplicated(vec_duplicates, fromLast=T),]
 
 write.csv(players_50_stats, "processed_data/fig.2.csv")
 
-data_frequent_players_regular <- data_final_D2.2[data_final_D2.2$player_name %in% players_50, ]
+data_frequent_players_regular <- data_final_D2[data_final_D2$player_name %in% players_50, ]
 outcome_function(data_frequent_players_regular)
 
-data_not_frequent_players_regular <- data_final_D2.2[!data_final_D2.2$player_name %in% players_50, ]
+data_not_frequent_players_regular <- data_final_D2[!data_final_D2$player_name %in% players_50, ]
 
 outcome_function(data_not_frequent_players_regular)
 
-outcome_function(data_final_D2.2)
+outcome_function(data_final_D2)
 
 
 # conversion per player shootout
 g <- 1
-while (sum(table(data_shootout_D2.2$player_name) >= g) >= 50) {
+while (sum(table(data_shootout_D2$player_name) >= g) >= 50) {
     g <- g + 1
 }
 n_player <- g - 1
 
-players_50 <- names(table(data_shootout_D2.2$player_name)[table(data_shootout_D2.2$player_name) >= n_player])
+players_50 <- names(table(data_shootout_D2$player_name)[table(data_shootout_D2$player_name) >= n_player])
 players_50_stats <- matrix(NA, ncol = 4, nrow = length(players_50))
 colnames(players_50_stats) <- c("penalties", "goal", "miss", "save")
 rownames(players_50_stats) <- str_to_title(players_50)
 
 for (i in seq_along(players_50)) {
-    data_players_50 <- data_shootout_D2.2[data_shootout_D2.2$player_name %in% players_50[i], ]
+    data_players_50 <- data_shootout_D2[data_shootout_D2$player_name %in% players_50[i], ]
 
     players_50_stats[i, c("goal", "miss", "save")] <- table(data_players_50$EventTypeName) / sum(table(data_players_50$EventTypeName)) * 100
     players_50_stats[i, "penalties"] <- sum(table(data_players_50$EventTypeName))
@@ -508,7 +508,7 @@ nrow(players_50_stats)
 
 
 # conversion per goalies
-data_final_goalies <- data_regular_D2.3[data_regular_D2.3$goalie_name != "dummy_goalie", ]
+data_final_goalies <- data_regular_D3[data_regular_D3$goalie_name != "dummy_goalie", ]
 g <- 1
 while (sum(table(data_final_goalies$goalie_name) >= g) >= 50) {
     g <- g + 1
@@ -539,15 +539,15 @@ write.csv(players_50_stats, "processed_data/fig.3.csv")
 test_save_miss <- players_50_stats[, c("save", "miss")] * 0.01 * players_50_stats[, c("penalties")]
 cor.test(test_save_miss[, "save"], test_save_miss[, "miss"], method = "pearson")
 
-data_frequent_goalies_regular <- data_regular_D2.3[data_regular_D2.3$goalie_name %in% players_50, ]
+data_frequent_goalies_regular <- data_regular_D3[data_regular_D3$goalie_name %in% players_50, ]
 outcome_function(data_frequent_goalies_regular)
 
-data_not_frequent_goalies_regular <- data_regular_D2.3[!data_regular_D2.3$goalie_name %in% players_50, ]
+data_not_frequent_goalies_regular <- data_regular_D3[!data_regular_D3$goalie_name %in% players_50, ]
 outcome_function(data_not_frequent_goalies_regular)
 
 # goalies shootout
 
-data_final_goalies <- data_shootout_D2.3[data_shootout_D2.3$goalie_name != "dummy_goalie", ]
+data_final_goalies <- data_shootout_D3[data_shootout_D3$goalie_name != "dummy_goalie", ]
 g <- 1
 while (sum(table(data_final_goalies$goalie_name) >= g) >= 50) {
     g <- g + 1
@@ -573,25 +573,25 @@ nrow(players_50_stats)
 
 write.csv(players_50_stats, "processed_data/fig.4.csv")
 
-data_frequent_goalies_regular <- data_regular_D2.3[data_regular_D2.3$goalie_name %in% players_50, ]
+data_frequent_goalies_regular <- data_regular_D3[data_regular_D3$goalie_name %in% players_50, ]
 outcome_function(data_frequent_goalies_regular)
-outcome_function(data_regular_D2.3)
+outcome_function(data_regular_D3)
 
 
 # conversion per team
 g <- 1
-while (sum(table(data_regular_D2.3$PenaltyTakerTeamName) >= g) >= 50) {
+while (sum(table(data_regular_D3$PenaltyTakerTeamName) >= g) >= 50) {
     g <- g + 1
 }
 n_player <- g - 1
 
-players_50 <- names(table(data_regular_D2.3$PenaltyTakerTeamName)[table(data_regular_D2.3$PenaltyTakerTeamName) >= n_player])
+players_50 <- names(table(data_regular_D3$PenaltyTakerTeamName)[table(data_regular_D3$PenaltyTakerTeamName) >= n_player])
 players_50_stats <- matrix(NA, ncol = 4, nrow = length(players_50))
 colnames(players_50_stats) <- c("penalties", "goal", "miss", "save")
 rownames(players_50_stats) <- str_to_title(players_50)
 
 for (i in seq_along(players_50)) {
-    data_players_50 <- data_regular_D2.3[data_regular_D2.3$PenaltyTakerTeamName %in% players_50[i], ]
+    data_players_50 <- data_regular_D3[data_regular_D3$PenaltyTakerTeamName %in% players_50[i], ]
 
     players_50_stats[i, c("goal", "miss", "save")] <- table(data_players_50$EventTypeName) / sum(table(data_players_50$EventTypeName)) * 100
     players_50_stats[i, "penalties"] <- sum(table(data_players_50$EventTypeName))
@@ -604,26 +604,26 @@ nrow(players_50_stats)
 
 write.csv(players_50_stats, "processed_data/fig.5.csv")
 
-data_frequent_players_regular <- data_regular_D2.3[data_regular_D2.3$PenaltyTakerTeamName %in% players_50, ]
+data_frequent_players_regular <- data_regular_D3[data_regular_D3$PenaltyTakerTeamName %in% players_50, ]
 outcome_function(data_frequent_players_regular)
 
-data_frequent_players_regular <- data_regular_D2.3[!data_regular_D2.3$PenaltyTakerTeamName %in% players_50, ]
+data_frequent_players_regular <- data_regular_D3[!data_regular_D3$PenaltyTakerTeamName %in% players_50, ]
 outcome_function(data_frequent_players_regular)
 
 # shootout
 g <- 1
-while (sum(table(data_shootout_D2.3$PenaltyTakerTeamName) >= g) >= 50) {
+while (sum(table(data_shootout_D3$PenaltyTakerTeamName) >= g) >= 50) {
     g <- g + 1
 }
 n_player <- g - 1
 
-players_50 <- names(table(data_shootout_D2.3$PenaltyTakerTeamName)[table(data_shootout_D2.3$PenaltyTakerTeamName) >= n_player])
+players_50 <- names(table(data_shootout_D3$PenaltyTakerTeamName)[table(data_shootout_D3$PenaltyTakerTeamName) >= n_player])
 players_50_stats <- matrix(NA, ncol = 4, nrow = length(players_50))
 colnames(players_50_stats) <- c("penalties", "goal", "miss", "save")
 rownames(players_50_stats) <- str_to_title(players_50)
 
 for (i in seq_along(players_50)) {
-    data_players_50 <- data_shootout_D2.3[data_shootout_D2.3$PenaltyTakerTeamName %in% players_50[i], ]
+    data_players_50 <- data_shootout_D3[data_shootout_D3$PenaltyTakerTeamName %in% players_50[i], ]
 
     players_50_stats[i, c("goal", "miss", "save")] <- table(data_players_50$EventTypeName) / sum(table(data_players_50$EventTypeName)) * 100
     players_50_stats[i, "penalties"] <- sum(table(data_players_50$EventTypeName))
@@ -636,23 +636,23 @@ nrow(players_50_stats)
 
 write.csv(players_50_stats, "processed_data/fig.6.csv")
 
-data_frequent_players_regular <- data_shootout_D2.3[data_shootout_D2.3$PenaltyTakerTeamName %in% players_50, ]
+data_frequent_players_regular <- data_shootout_D3[data_shootout_D3$PenaltyTakerTeamName %in% players_50, ]
 outcome_function(data_frequent_players_regular)
 
-data_frequent_players_regular <- data_shootout_D2.3[!data_shootout_D2.3$PenaltyTakerTeamName %in% players_50, ]
+data_frequent_players_regular <- data_shootout_D3[!data_shootout_D3$PenaltyTakerTeamName %in% players_50, ]
 outcome_function(data_frequent_players_regular)
 
 # overall teams
 
 n_player <- 20
 
-players_50 <- names(table(data_final_D2.3$PenaltyTakerTeamName)[table(data_final_D2.3$PenaltyTakerTeamName) >= n_player])
+players_50 <- names(table(data_final_D3$PenaltyTakerTeamName)[table(data_final_D3$PenaltyTakerTeamName) >= n_player])
 players_50_stats <- matrix(NA, ncol = 4, nrow = length(players_50))
 colnames(players_50_stats) <- c("n", "goal", "miss", "save")
 rownames(players_50_stats) <- str_to_title(players_50)
 
 for (i in seq_along(players_50)) {
-    data_players_50 <- data_final_D2.3[data_final_D2.3$PenaltyTakerTeamName %in% players_50[i], ]
+    data_players_50 <- data_final_D3[data_final_D3$PenaltyTakerTeamName %in% players_50[i], ]
     players_50_stats[i, c("goal", "miss", "save")] <- outcome_function(data_players_50)
     players_50_stats[i, "n"] <- sum(table(data_players_50$EventTypeName))
 }
@@ -665,8 +665,8 @@ nrow(players_50_stats)
 ##########  Figure 5 Fatigue plot  ############
 
 ## no of penalties regular 90min ##
-data_regular_fatigue <- data_regular_90_D2.3[data_regular_90_D2.3$PenaltyMinute != 0, ]
-sum(data_regular_90_D2.3$PenaltyMinute == 0) # delete 71 where time is missing
+data_regular_fatigue <- data_regular_90_D3[data_regular_90_D3$PenaltyMinute != 0, ]
+sum(data_regular_90_D3$PenaltyMinute == 0) # delete 71 where time is missing
 
 data_first_half <- data_regular_fatigue[data_regular_fatigue$TypePhaseName == "First half", ]
 data_second_half <- data_regular_fatigue[data_regular_fatigue$TypePhaseName == "Second half", ]
@@ -737,13 +737,13 @@ data_first_rel[, "penalties"] <- data_first_pen_time$penalties
 data_second_rel[, "penalties"] <- data_second_pen_time$penalties
 
 # extra time
-mean_extra_first <- outcome_function(data_regular_120_D2.3[data_regular_120_D2.3$TypePhaseName == "1st Extra Time", ])
-mean_extra_second <- outcome_function(data_regular_120_D2.3[data_regular_120_D2.3$TypePhaseName == "2nd Extra Time", ])
-mean_extra <- outcome_function(data_regular_120_D2.3)
+mean_extra_first <- outcome_function(data_regular_120_D3[data_regular_120_D3$TypePhaseName == "1st Extra Time", ])
+mean_extra_second <- outcome_function(data_regular_120_D3[data_regular_120_D3$TypePhaseName == "2nd Extra Time", ])
+mean_extra <- outcome_function(data_regular_120_D3)
 
-data_extra_pen_time <- matrix(table(data_regular_120_D2.3$PenaltyMinute, data_regular_120_D2.3$EventTypeName), ncol = 3)
-rownames(data_extra_pen_time) <- rownames(table(data_regular_120_D2.3$PenaltyMinute, data_regular_120_D2.3$EventTypeName))
-colnames(data_extra_pen_time) <- colnames(table(data_regular_120_D2.3$PenaltyMinute, data_regular_120_D2.3$EventTypeName))
+data_extra_pen_time <- matrix(table(data_regular_120_D3$PenaltyMinute, data_regular_120_D3$EventTypeName), ncol = 3)
+rownames(data_extra_pen_time) <- rownames(table(data_regular_120_D3$PenaltyMinute, data_regular_120_D3$EventTypeName))
+colnames(data_extra_pen_time) <- colnames(table(data_regular_120_D3$PenaltyMinute, data_regular_120_D3$EventTypeName))
 data_extra_pen_time <- data.frame(data_extra_pen_time[order(as.numeric(rownames(data_extra_pen_time))), ])
 data_extra_pen_time[, "penalties"] <- rowSums(data_extra_pen_time)
 data_extra_pen_time[, "PenaltyMinute"] <- as.numeric(rownames(data_extra_pen_time))
@@ -781,22 +781,22 @@ write.csv(data_rel_all, "processed_data/fig.7.csv")
 
 
 #### penalty shootouts ####
-nrow(data_shootout_D2.2)
-length(unique(data_shootout_D2.2$fcompMatchID))
+nrow(data_shootout_D2)
+length(unique(data_shootout_D2$fcompMatchID))
 
 
-taker_score_shoot <- matrix(NA, nrow = nrow(data_shootout_D2.2), ncol = 1)
-goalie_score_shoot <- matrix(NA, nrow = nrow(data_shootout_D2.2), ncol = 1)
+taker_score_shoot <- matrix(NA, nrow = nrow(data_shootout_D2), ncol = 1)
+goalie_score_shoot <- matrix(NA, nrow = nrow(data_shootout_D2), ncol = 1)
 
-for (i in 1:nrow(data_shootout_D2.2)) {
-    score <- str_extract_all(data_shootout_D2.2$ScoreBefore[i], "\\d+")
+for (i in 1:nrow(data_shootout_D2)) {
+    score <- str_extract_all(data_shootout_D2$ScoreBefore[i], "\\d+")
 
     score_home <- as.numeric(score[[1]][1])
     score_away <- as.numeric(score[[1]][2])
 
-    team_taker <- data_shootout_D2.2$PenaltyTakerTeamName[i]
-    team_home <- data_shootout_D2.2$homeTeamName[i]
-    team_away <- data_shootout_D2.2$awayTeamName[i]
+    team_taker <- data_shootout_D2$PenaltyTakerTeamName[i]
+    team_home <- data_shootout_D2$homeTeamName[i]
+    team_away <- data_shootout_D2$awayTeamName[i]
 
     if (team_taker == team_home) {
         taker_score_shoot[i] <- score_home
@@ -809,10 +809,10 @@ for (i in 1:nrow(data_shootout_D2.2)) {
     }
 }
 
-data_shootout_D2.2[, "taker_score"] <- taker_score_shoot
-data_shootout_D2.2[, "goalie_score"] <- goalie_score_shoot
+data_shootout_D2[, "taker_score"] <- taker_score_shoot
+data_shootout_D2[, "goalie_score"] <- goalie_score_shoot
 
-data_shoot_time <- table(data_shootout_D2.2$order, data_shootout_D2.2$EventTypeName)
+data_shoot_time <- table(data_shootout_D2$order, data_shootout_D2$EventTypeName)
 shootout_mean_order <- data_shoot_time / apply(data_shoot_time, 1, sum)
 shootout_mean_order <- cbind(shootout_mean_order, "size" = apply(data_shoot_time, 1, sum))
 
@@ -823,8 +823,8 @@ colnames(shootout_mean_order) <- c("goal", "penalties", "order")
 
 write.csv(shootout_mean_order, "processed_data/fig.8.csv")
 
-first_shooters_names <- data_shootout_D2.2[data_shootout_D2.2$order %in% 1:2, "player_name"]
-outcome_function(data_regular_D2.2[data_regular_D2.2$player_name %in% first_shooters_names, ])
+first_shooters_names <- data_shootout_D2[data_shootout_D2$order %in% 1:2, "player_name"]
+outcome_function(data_regular_D2[data_regular_D2$player_name %in% first_shooters_names, ])
 
 ##### fig 10
 
@@ -927,7 +927,7 @@ lmtest::dwtest(lm(fig10_data_18 ~ 1), alternative = "two.sided") # all
 
 #### Potential Last Penalty ####
 
-data_shoot_gametime <- data_shootout_D2.2
+data_shoot_gametime <- data_shootout_D2
 for (i in seq_len(nrow(data_shoot_gametime))) {
     taker_diff <- data_shoot_gametime[i, "taker_score"] - data_shoot_gametime[i, "goalie_score"]
 
@@ -1000,7 +1000,7 @@ pot_win <- outcome_function(data_shoot_gametime[data_shoot_gametime$pressure == 
 #### FMA ####
 
 # who won more games ?
-matches_shootout_all <- unique(data_shootout_D2.2$fcompMatchID)
+matches_shootout_all <- unique(data_shootout_D2$fcompMatchID)
 
 data_shoot_winner <- matrix(NA, ncol = 9, nrow = length(matches_shootout_all))
 colnames(data_shoot_winner) <- c("beginner", "winner", "home", "away", "name", "shortname", "fcompMatchID", "n_pen", "goal")
@@ -1011,7 +1011,7 @@ last_pen_id <- list()
 problem_last_goal <- matrix(0, ncol = 1, nrow = length(matches_shootout_all))
 
 for (i in seq_along(matches_shootout_all)) {
-    set <- data_shootout_D2.2[data_shootout_D2.2$fcompMatchID == matches_shootout_all[i], ]
+    set <- data_shootout_D2[data_shootout_D2$fcompMatchID == matches_shootout_all[i], ]
     id_first <- set$order == 1
     data_shoot_winner[i, "beginner"] <- set[id_first, "PenaltyTakerTeamName"]
     data_shoot_winner[i, "home"] <- set[id_first, "homeTeamName"]
@@ -1054,7 +1054,7 @@ for (i in seq_along(matches_shootout_all)) {
     }
 }
 
-problem_last_shot <- data_shootout_D2.2[data_shootout_D2.2$fcompMatchID %in% matches_shootout_all[problem_last_goal == 1], ]
+problem_last_shot <- data_shootout_D2[data_shootout_D2$fcompMatchID %in% matches_shootout_all[problem_last_goal == 1], ]
 
 data_shoot_winner <- data.frame(data_shoot_winner)
 nrow(data_shoot_winner)
@@ -1064,10 +1064,10 @@ mean(data_shoot_winner$winner == data_shoot_winner$home)
 mean(data_shoot_winner$winner == data_shoot_winner$away)
 
 # do winning teams have a conversion rate comparable to in-game?
-data_winner_rate <- matrix(NA, ncol = ncol(data_shootout_D2.2), nrow = 0)
+data_winner_rate <- matrix(NA, ncol = ncol(data_shootout_D2), nrow = 0)
 
 for (i in seq_len(nrow(data_shoot_winner))) {
-    new_data <- data_shootout_D2.2[data_shootout_D2.2$fcompMatchID == data_shoot_winner$fcompMatchID[i] & data_shootout_D2.2$PenaltyTakerTeamName == data_shoot_winner$winner[i], ]
+    new_data <- data_shootout_D2[data_shootout_D2$fcompMatchID == data_shoot_winner$fcompMatchID[i] & data_shootout_D2$PenaltyTakerTeamName == data_shoot_winner$winner[i], ]
     data_winner_rate <- rbind(data_winner_rate, new_data)
 }
 
@@ -1104,8 +1104,8 @@ last_pen_output <- last_perc[order(as.numeric(names(last_perc)))]
 
 # players only shootout on which place in order ?
 
-data_players_only_shootout <- data_shootout_D2.2[!data_shootout_D2.2$player_name %in% data_regular_D2.2$player_name, ]
-only_shoot_per_pos <- table(data_players_only_shootout$order) / table(data_shootout_D2.2$order) * 100
+data_players_only_shootout <- data_shootout_D2[!data_shootout_D2$player_name %in% data_regular_D2$player_name, ]
+only_shoot_per_pos <- table(data_players_only_shootout$order) / table(data_shootout_D2$order) * 100
 
 output_order <- shootout_mean_order[, c("penalties", "goal")]
 output_order <- cbind(output_order, "last" = last_pen_output)
@@ -1174,74 +1174,74 @@ sum(table(data_potential_lose$order)[1:5]) # potential loss before sudden death 
 
 #### Outcome and  Appearance ####
 
-all_takers <- unique(data_final_D2.3$player_name)
-takers_both <- unique(data_regular_D2.3$player_name[data_regular_D2.3$player_name %in% data_shootout_D2.3$player_name])
-takers_only_shoot <- unique(data_shootout_D2.3$player_name[!data_shootout_D2.3$player_name %in% data_regular_D2.3$player_name])
-takers_only_reg <- unique(data_regular_D2.3$player_name[!data_regular_D2.3$player_name %in% data_shootout_D2.3$player_name])
+all_takers <- unique(data_final_D3$player_name)
+takers_both <- unique(data_regular_D3$player_name[data_regular_D3$player_name %in% data_shootout_D3$player_name])
+takers_only_shoot <- unique(data_shootout_D3$player_name[!data_shootout_D3$player_name %in% data_regular_D3$player_name])
+takers_only_reg <- unique(data_regular_D3$player_name[!data_regular_D3$player_name %in% data_shootout_D3$player_name])
 
 length(takers_both) / length(all_takers) * 100 # both
 length(takers_only_shoot) / length(all_takers) * 100 # only shootout
 length(takers_only_reg) / length(all_takers) * 100 # only regular
 
 
-nrow(data_regular_D2.3[data_regular_D2.3$player_name %in% takers_only_reg, ])
-outcome_function(data_regular_D2.3[data_regular_D2.3$player_name %in% takers_only_reg, ])
+nrow(data_regular_D3[data_regular_D3$player_name %in% takers_only_reg, ])
+outcome_function(data_regular_D3[data_regular_D3$player_name %in% takers_only_reg, ])
 
-nrow(data_regular_D2.3[data_regular_D2.3$player_name %in% takers_both, ])
-outcome_function(data_regular_D2.3[data_regular_D2.3$player_name %in% takers_both, ])
+nrow(data_regular_D3[data_regular_D3$player_name %in% takers_both, ])
+outcome_function(data_regular_D3[data_regular_D3$player_name %in% takers_both, ])
 
-nrow(data_shootout_D2.3[data_shootout_D2.3$player_name %in% takers_both, ])
-outcome_function(data_shootout_D2.3[data_shootout_D2.3$player_name %in% takers_both, ])
+nrow(data_shootout_D3[data_shootout_D3$player_name %in% takers_both, ])
+outcome_function(data_shootout_D3[data_shootout_D3$player_name %in% takers_both, ])
 
-nrow(data_shootout_D2.3[data_shootout_D2.3$player_name %in% takers_only_shoot, ])
-outcome_function(data_shootout_D2.3[data_shootout_D2.3$player_name %in% takers_only_shoot, ])
+nrow(data_shootout_D3[data_shootout_D3$player_name %in% takers_only_shoot, ])
+outcome_function(data_shootout_D3[data_shootout_D3$player_name %in% takers_only_shoot, ])
 
 
 
-nrow(data_shootout_D2.3[data_shootout_D2.3$player_name %in% takers_only_shoot, ])
-outcome_function(data_shootout_D2.3[data_shootout_D2.3$player_name %in% takers_only_shoot, ])
+nrow(data_shootout_D3[data_shootout_D3$player_name %in% takers_only_shoot, ])
+outcome_function(data_shootout_D3[data_shootout_D3$player_name %in% takers_only_shoot, ])
 
 
 
 times <- 1
 
-players_both <- unique(data_shootout_D2.3$player_name[data_shootout_D2.3$player_name %in% data_regular_D2.3$player_name])
-data_both <- data_final_D2.3[data_final_D2.3$player_name %in% players_both, ]
+players_both <- unique(data_shootout_D3$player_name[data_shootout_D3$player_name %in% data_regular_D3$player_name])
+data_both <- data_final_D3[data_final_D3$player_name %in% players_both, ]
 nrow(data_both)
 
 table(table(data_both$player_name))
 players_both_once <- names(table(data_both$player_name)[table(data_both$player_name) == times])
 players_both_more <- players_both[!players_both %in% players_both_once]
 
-data_shootout_D2.3_both_once <- data_shootout_D2.3[data_shootout_D2.3$player_name %in% players_both_once, ]
-data_shootout_D2.3_both_more <- data_shootout_D2.3[data_shootout_D2.3$player_name %in% players_both_more, ]
+data_shootout_D3_both_once <- data_shootout_D3[data_shootout_D3$player_name %in% players_both_once, ]
+data_shootout_D3_both_more <- data_shootout_D3[data_shootout_D3$player_name %in% players_both_more, ]
 
-data_regular_D2.3_both_once <- data_regular_D2.3[data_regular_D2.3$player_name %in% players_both_once, ]
-data_regular_D2.3_both_more <- data_regular_D2.3[data_regular_D2.3$player_name %in% players_both_more, ]
+data_regular_D3_both_once <- data_regular_D3[data_regular_D3$player_name %in% players_both_once, ]
+data_regular_D3_both_more <- data_regular_D3[data_regular_D3$player_name %in% players_both_more, ]
 
 # decriptives
 length(players_both)
 nrow(data_both)
-nrow(data_regular_D2.3_both_once)
-nrow(data_regular_D2.3_both_more)
-nrow(data_shootout_D2.3_both_once)
-nrow(data_shootout_D2.3_both_more)
+nrow(data_regular_D3_both_once)
+nrow(data_regular_D3_both_more)
+nrow(data_shootout_D3_both_once)
+nrow(data_shootout_D3_both_more)
 
 
 # regular setting
-only_times_reg_tab <- outcome_function(data_regular_D2.3_both_once, digits = 10)
-more_than_times_reg_tab <- outcome_function(data_regular_D2.3_both_more, digits = 10)
+only_times_reg_tab <- outcome_function(data_regular_D3_both_once, digits = 10)
+more_than_times_reg_tab <- outcome_function(data_regular_D3_both_more, digits = 10)
 
 # shootout setting
-only_times_sh_tab <- outcome_function(data_shootout_D2.3_both_once, digits = 10)
-more_than_times_sh_tab <- outcome_function(data_shootout_D2.3_both_more, digits = 10)
+only_times_sh_tab <- outcome_function(data_shootout_D3_both_once, digits = 10)
+more_than_times_sh_tab <- outcome_function(data_shootout_D3_both_more, digits = 10)
 
 fig9_data <- rbind(only_times_reg_tab, more_than_times_reg_tab, only_times_sh_tab, more_than_times_sh_tab)
 rownames(fig9_data) <- c("= 1 in game", "> 1 in game", "= 1 shootout", "> 1 shootout")
 fig9_data <- data.frame(round(fig9_data, 2))
 fig9_data[, "penalties"] <- c(
-    nrow(data_regular_D2.3_both_once), nrow(data_regular_D2.3_both_more),
-    nrow(data_shootout_D2.3_both_once), nrow(data_shootout_D2.3_both_more)
+    nrow(data_regular_D3_both_once), nrow(data_regular_D3_both_more),
+    nrow(data_shootout_D3_both_once), nrow(data_shootout_D3_both_more)
 )
 
 
@@ -1250,13 +1250,13 @@ write.csv(fig9_data, "processed_data/fig.9.csv")
 ## Table 8
 # players that either appeared in one of the settings
 
-players_either <- unique(data_final_D2.3$player_name[!data_final_D2.3$player_name %in% players_both])
+players_either <- unique(data_final_D3$player_name[!data_final_D3$player_name %in% players_both])
 length(players_either)
-data_either <- data_final_D2.3[data_final_D2.3$player_name %in% players_either, ]
+data_either <- data_final_D3[data_final_D3$player_name %in% players_either, ]
 nrow(data_either)
 
-data_regular_only <- data_regular_D2.3[data_regular_D2.3$player_name %in% players_either, ]
-data_shootout_only <- data_shootout_D2.3[data_shootout_D2.3$player_name %in% players_either, ]
+data_regular_only <- data_regular_D3[data_regular_D3$player_name %in% players_either, ]
+data_shootout_only <- data_shootout_D3[data_shootout_D3$player_name %in% players_either, ]
 
 results_regular_only <- c(outcome_function(data_regular_only), nrow(data_regular_only))
 results_shootout_only <- c(outcome_function(data_shootout_only), nrow(data_shootout_only))
@@ -1271,37 +1271,37 @@ write.csv(results_only, "processed_data/tab.6.csv")
 ########### log reg ###########
 
 
-var_shootout <- data_final_D2.2$TypePhaseName == "Penalty Shoot-Out"
+var_shootout <- data_final_D2$TypePhaseName == "Penalty Shoot-Out"
 
 # var_top_leagues <- id_top_leagues==1
 
 # national league as reference
-var_national_teams <- data_final_D2.2$CompetitionShortName == "nat_teams"
-var_int_cups <- data_final_D2.2$CompetitionShortName == "int_cups"
-var_nat_cups <- data_final_D2.2$CompetitionShortName == "leag"
+var_national_teams <- data_final_D2$CompetitionShortName == "nat_teams"
+var_int_cups <- data_final_D2$CompetitionShortName == "int_cups"
+var_nat_cups <- data_final_D2$CompetitionShortName == "leag"
 
 # shooters in both as reference
-only_shootout <- data_shootout_D2.2$player_name[!data_shootout_D2.2$player_name %in% data_regular_D2.2$player_name]
-var_only_shoot <- data_final_D2.2$player_name %in% only_shootout
+only_shootout <- data_shootout_D2$player_name[!data_shootout_D2$player_name %in% data_regular_D2$player_name]
+var_only_shoot <- data_final_D2$player_name %in% only_shootout
 
-only_reg <- data_regular_D2.2$player_name[!data_regular_D2.2$player_name %in% data_shootout_D2.2$player_name]
-var_only_reg <- data_final_D2.2$player_name %in% only_reg
+only_reg <- data_regular_D2$player_name[!data_regular_D2$player_name %in% data_shootout_D2$player_name]
+var_only_reg <- data_final_D2$player_name %in% only_reg
 
 # experience
 
-both_players <- data_shootout_D2.2$player_name[data_shootout_D2.2$player_name %in% data_regular_D2.2$player_name]
-two_both <- names(table(data_final_D2.2[data_final_D2.2$player_name %in% both_players, "player_name"])[table(data_final_D2.2[data_final_D2.2$player_name %in% both_players, "player_name"]) > 2])
+both_players <- data_shootout_D2$player_name[data_shootout_D2$player_name %in% data_regular_D2$player_name]
+two_both <- names(table(data_final_D2[data_final_D2$player_name %in% both_players, "player_name"])[table(data_final_D2[data_final_D2$player_name %in% both_players, "player_name"]) > 2])
 
-var_experience <- data_final_D2.2$player_name %in% two_both
+var_experience <- data_final_D2$player_name %in% two_both
 
 # season
-var_season <- data_final_D2.2$SeasonID
+var_season <- data_final_D2$SeasonID
 
 # home team == taker
-var_home <- data_final_D2.2$homeTeamName == data_final_D2.2$PenaltyTakerTeamName
+var_home <- data_final_D2$homeTeamName == data_final_D2$PenaltyTakerTeamName
 
 # logreg
-logreg_final <- glm(data_final_D2.2$Goal ~ var_shootout + var_national_teams + var_int_cups + var_nat_cups +
+logreg_final <- glm(data_final_D2$Goal ~ var_shootout + var_national_teams + var_int_cups + var_nat_cups +
     var_only_shoot + var_only_reg + var_experience + var_season + var_home, family = binomial)
 
 # stargazer(logreg_final)
@@ -1323,15 +1323,15 @@ write.csv(output_reg, "processed_data/tab.7.csv")
 
 ## penalties awarded to home team ##
 
-mean(data_regular_D2.2$PenaltyTakerTeamName == data_regular_D2.2$homeTeamName)
-mean(data_regular_D2.3$PenaltyTakerTeamName == data_regular_D2.3$homeTeamName)
+mean(data_regular_D2$PenaltyTakerTeamName == data_regular_D2$homeTeamName)
+mean(data_regular_D3$PenaltyTakerTeamName == data_regular_D3$homeTeamName)
 
-mean(data_regular_D2.2$PenaltyTakerTeamName == data_regular_D2.2$awayTeamName)
+mean(data_regular_D2$PenaltyTakerTeamName == data_regular_D2$awayTeamName)
 
 
 # score at penalty
-sum(data_regular_D2.3$ScoreBefore == "100:100")
-data_score_analysis <- data_regular_D2.3[data_regular_D2.3$ScoreBefore != "100:100", ]
+sum(data_regular_D3$ScoreBefore == "100:100")
+data_score_analysis <- data_regular_D3[data_regular_D3$ScoreBefore != "100:100", ]
 data_score_split <- data.frame(str_split(data_score_analysis$ScoreBefore, pattern = ":", simplify = T))
 
 home_id <- data_score_analysis$homeTeamName == data_score_analysis$PenaltyTakerTeamName
@@ -1408,7 +1408,7 @@ write.csv(data_tab_out, "processed_data/tab_rejected.csv")
 
 
 ## outlier 3 result ##
-data_outlier_3 <- data_shootout_D2.2[data_shootout_D2.2$order == 3, ]
+data_outlier_3 <- data_shootout_D2[data_shootout_D2$order == 3, ]
 n_data_outlier_3 <- table(data_outlier_3$ScoreBefore)
 names_3 <- names(n_data_outlier_3)
 data_out_outlier3 <- matrix(NA, nrow = 2, ncol = length(names_3))
